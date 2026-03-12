@@ -1,6 +1,6 @@
 <div align="center">
   <img src="logo.png" width="150" height="150" alt="Project Logo">
-  <h1>FuckAnimeGameDaily</h1>
+  <h1>FuckGamesDailyMissions</h1>
   <p>自动化任务调度与关机助手</p>
 </div>
 
@@ -28,7 +28,7 @@
 | `task_3_march7th.bat` | **崩坏：星穹铁道** (Honkai: Star Rail) | [March7thAssistant](https://github.com/moesnow/March7thAssistant) | 三月七小助手 |
 | `task_4_okww.bat` | **鸣潮** (Wuthering Waves) | [ok-ww](https://github.com/ok-oldking/ok-wuthering-waves) | 鸣潮后台自动化助手 |
 
-> **注意**：本项目仅作为启动器，不包含上述任何自动化软件。请自行前往对应 GitHub 仓库下载并安装。
+> **注意**：本项目仅作为启动器，不包含上述任何自动化软件。请自行前往对应 GitHub 仓库下载并安装。**本项目与以上项目没有任何关联，也不提供任何形式的技术支持。**
 
 ## 🚀 快速开始
 
