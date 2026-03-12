@@ -48,8 +48,8 @@
 REM ========================================================
 REM CONFIGURATION REQUIRED
 REM ========================================================
-set "APP_DIR=E:\Games\YourGame"       <-- 修改这里：软件所在文件夹
-set "APP_EXE=GameLauncher.exe"        <-- 修改这里：可执行文件名
+set "APP_DIR=E:\YourAutomationTool"       <-- 修改这里：软件所在文件夹
+set "APP_EXE=AutomationTool.exe"        <-- 修改这里：可执行文件名
 ```
 
 ### 3. 配置关机计划
