@@ -1,0 +1,17 @@
+# Configuration files
+shutdown_schedule.ini
+
+# Task scripts (contain sensitive paths)
+task_1_mfa.bat
+task_2_bettergi.bat
+task_3_march7th.bat
+task_4_okww.bat
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# System files
+Thumbs.db
+Desktop.ini

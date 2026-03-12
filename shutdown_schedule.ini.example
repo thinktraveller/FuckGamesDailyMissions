@@ -1,0 +1,11 @@
+# Shutdown Schedule Configuration Example
+# Rename this file to 'shutdown_schedule.ini' to use it.
+# Set to true to enable shutdown on that day.
+# Set to false to disable shutdown on that day.
+Monday=false
+Tuesday=false
+Wednesday=false
+Thursday=false
+Friday=false
+Saturday=false
+Sunday=false

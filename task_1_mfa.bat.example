@@ -1,0 +1,30 @@
+@echo off
+setlocal EnableDelayedExpansion
+title Launch MFAAvalonia
+
+echo [%time%] [Task 1/4] Launching MFAAvalonia.exe
+REM ========================================================
+REM CONFIGURATION REQUIRED
+REM Please set APP_DIR to the directory where MFAAvalonia.exe is installed.
+REM Example: set "APP_DIR=E:\Games\1999Auto"
+REM ========================================================
+set "APP_DIR=YOUR_INSTALLATION_PATH_HERE"
+set "APP_EXE=MFAAvalonia.exe"
+set "APP_PATH=!APP_DIR!\!APP_EXE!"
+
+if exist "!APP_PATH!" (
+    echo Starting automation tool...
+    start "" /d "!APP_DIR!" "!APP_PATH!"
+    if !errorlevel!==0 (
+        echo [%time%] MFAAvalonia.exe started successfully.
+    ) else (
+        echo [%time%] [ERROR] MFAAvalonia.exe failed to start, error code: !errorlevel!
+        exit /b 1
+    )
+) else (
+    echo [%time%] [ERROR] File not found: "!APP_PATH!"
+    echo Please check the installation path in task_1_mfa.bat.
+    exit /b 1
+)
+
+exit /b 0

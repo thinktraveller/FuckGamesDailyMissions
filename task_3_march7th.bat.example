@@ -1,0 +1,30 @@
+@echo off
+setlocal EnableDelayedExpansion
+title Launch March7th Assistant
+
+echo [%time%] [Task 3/4] Launching March7th Assistant.exe (Account 1)
+REM ========================================================
+REM CONFIGURATION REQUIRED
+REM Please set APP_DIR to the directory where March7th Assistant.exe is installed.
+REM Example: set "APP_DIR=E:\Games\March7thAssistant"
+REM ========================================================
+set "APP_DIR=YOUR_INSTALLATION_PATH_HERE"
+set "APP_EXE=March7th Assistant.exe"
+set "APP_PATH=!APP_DIR!\!APP_EXE!"
+
+if exist "!APP_PATH!" (
+    echo Starting March7th Assistant...
+    start "" /d "!APP_DIR!" "!APP_PATH!"
+    if !errorlevel!==0 (
+        echo [%time%] March7th Assistant.exe started successfully.
+    ) else (
+        echo [%time%] [ERROR] March7th Assistant.exe failed to start, error code: !errorlevel!
+        exit /b 1
+    )
+) else (
+    echo [%time%] [ERROR] File not found: "!APP_PATH!"
+    echo Please check the installation path in task_3_march7th.bat.
+    exit /b 1
+)
+
+exit /b 0
