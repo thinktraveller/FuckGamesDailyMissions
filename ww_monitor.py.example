@@ -1,0 +1,125 @@
+import requests
+import json
+from datetime import datetime
+
+# ========================================================
+# 依赖说明 (DEPENDENCIES)
+# ========================================================
+# 本脚本需要 requests 库。请运行以下命令进行安装：
+# pip install requests
+# ========================================================
+
+# ========================================================
+# 教程链接 (TUTORIALS)
+# ========================================================
+# 1. 库街区 API 认证信息获取教程：
+#    https://xn--ntsp09fr3m.com/kurobbs.html
+# 2. 飞书机器人 Webhook 配置教程：
+#    https://www.feishu.cn/hc/zh-CN/articles/360024984973-%E5%9C%A8%E7%BE%A4%E7%BB%84%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E4%BA%BA
+# ========================================================
+
+# 1. 核心认证信息 (CONFIGURATION REQUIRED)
+HEADERS = {
+    "source": "android",
+    "devCode": "YOUR_DEVICE_CODE", # 示例：120.236.174.221, Mozilla/5.0 ...
+    "token": "YOUR_KUROBBS_TOKEN",  # 从库街区抓包获取的长 Token
+    "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "YOUR_USER_AGENT", # 示例：KuroGameBox/3.0.0
+}
+
+ROLE_PAYLOAD = {
+    "gameId": 3, # 3 代表鸣潮
+    "roleId": "YOUR_ROLE_ID",    # 游戏 UID
+    "serverId": "YOUR_SERVER_ID" # 区服 ID
+}
+
+# 2. 接口与 Webhook 配置
+STAMINA_URL = "https://api.kurobbs.com/gamer/widget/game3/refresh"
+FEISHU_WEBHOOK = "YOUR_FEISHU_WEBHOOK_URL" # 示例：https://open.feishu.cn/open-apis/bot/v2/hook/...
+
+def send_to_feishu(content_text):
+    """
+    发送消息到飞书 Webhook (富文本卡片格式)
+    """
+    if "YOUR_FEISHU_WEBHOOK_URL" in FEISHU_WEBHOOK:
+        print("未配置飞书 Webhook，跳过推送。")
+        return
+
+    payload = {
+        "msg_type": "interactive",
+        "card": {
+            "config": {
+                "wide_screen_mode": True
+            },
+            "header": {
+                "title": {
+                    "tag": "plain_text",
+                    "content": "鸣潮体力监控提醒"
+                },
+                "template": "blue"
+            },
+            "elements": [
+                {
+                    "tag": "markdown",
+                    "content": content_text
+                }
+            ]
+        }
+    }
+    try:
+        res = requests.post(FEISHU_WEBHOOK, json=payload)
+        if res.status_code == 200:
+            print(f"飞书消息推送成功: {res.text}")
+        else:
+            print(f"飞书消息推送失败: {res.status_code}, {res.text}")
+    except Exception as e:
+        print(f"飞书推送异常: {e}")
+
+def monitor_stamina():
+    print(f"正在请求鸣潮小组件数据...")
+    
+    if "YOUR_KUROBBS_TOKEN" in HEADERS["token"]:
+        print("未配置库街区 Token，无法获取体力数据。")
+        return
+
+    try:
+        res = requests.post(STAMINA_URL, headers=HEADERS, data=ROLE_PAYLOAD)
+        res_json = res.json()
+        
+        if res_json.get("code") == 200:
+            data = res_json.get("data")
+            energy = data.get("energyData", {})
+            store = data.get("storeEnergyData", {})
+            liveness = data.get("livenessData", {})
+            
+            now_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            # 构建控制台输出
+            print(f"\n--- 实时监控 [{now_str}] ---")
+            print(f"体力: {energy.get('cur')}/{energy.get('total')}")
+            
+            # 构建飞书卡片内容
+            fs_content = [
+                f"**⚡ 结晶波片:** **{energy.get('cur')}** / {energy.get('total')}"
+            ]
+            
+            # 体力回满逻辑
+            if energy.get('refreshTimeStamp') and energy.get('cur') < energy.get('total'):
+                recover_time = datetime.fromtimestamp(energy.get('refreshTimeStamp'))
+                fs_content.append(f"⏰ **预计回满:** {recover_time.strftime('%Y-%m-%d %H:%M:%S')}")
+            elif energy.get('cur') >= energy.get('total'):
+                fs_content.append("✅ **体力状态:** 已回满")
+            
+            fs_content.append(f"🔋 **结晶单质:** {store.get('cur')} / {store.get('total')}")
+            fs_content.append(f"🌟 **今日活跃:** {liveness.get('cur')}/100")
+            
+            # 发送到飞书
+            send_to_feishu("\n".join(fs_content))
+            
+        else:
+            print(f"数据获取失败: {res_json.get('msg')}")
+    except Exception as e:
+        print(f"运行发生错误: {e}")
+
+if __name__ == "__main__":
+    monitor_stamina()

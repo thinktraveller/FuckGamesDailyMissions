@@ -1,0 +1,27 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+REM ==================================================
+REM Task 5: Wuthering Waves Stamina Monitor
+REM ==================================================
+
+echo [%time%] Starting Task 5: Wuthering Waves Stamina Monitor...
+
+REM Path to the python script
+set "PYTHON_SCRIPT=%~dp0ww_monitor.py"
+
+if exist "!PYTHON_SCRIPT!" (
+    echo [%time%] Running stamina monitor script...
+    python "!PYTHON_SCRIPT!"
+    if !errorlevel!==0 (
+        echo [%time%] Task 5 completed successfully.
+    ) else (
+        echo [%time%] [WARNING] Stamina monitor script exited with error code: !errorlevel!
+        exit /b 1
+    )
+) else (
+    echo [%time%] [ERROR] File not found: "!PYTHON_SCRIPT!"
+    exit /b 1
+)
+
+exit /b 0
