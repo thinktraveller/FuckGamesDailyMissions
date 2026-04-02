@@ -32,6 +32,8 @@
 | `task_4_okww.bat` | **鸣潮** (Wuthering Waves) | [ok-ww](https://github.com/ok-oldking/ok-wuthering-waves) | 鸣潮后台自动化助手 |
 | `task_5_ww_monitor.bat` | **鸣潮** (Wuthering Waves) | **本项目内置** | 通过库街区 API 推送体力/活跃度到飞书 |
 
+您可以在 [这里](https://mirrorchyan.com/zh/projects) 发现更多自动化工具。
+
 ## 🚀 快速开始
 
 ### 0. 配置自动化程序
